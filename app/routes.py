@@ -13,6 +13,7 @@ def home():
 @app.route('/search', methods=['GET', 'POST'])
 def company_search():   
     if request.method == 'POST':
+
         symbol = request.form.get('symbol')
 
         url = f'https://api.iextrading.com/1.0/stock/{symbol}/company'
@@ -22,8 +23,8 @@ def company_search():
 
         company = Company(name=data['companyName'], symbol=data['symbol'])
 
-        db.session.add(company)
-        db.session.commit()
+        # db.session.add(company)
+        # db.session.commit()
 
         return redirect(url_for('.portfolio_page'))
 

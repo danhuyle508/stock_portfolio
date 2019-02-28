@@ -1,2 +1,3 @@
-from . import appin _name__ == '__main__'
+from . import app
+if __name__ == '__main__':
     app.run()
