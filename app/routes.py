@@ -1,6 +1,6 @@
 from flask import render_template, abort, redirect, url_for, request
 from sqlalchemy.exc import DBAPIError, IntegrityError
-from .models import db, City
+from .models import db, Company
 from . import app
 import requests
 import json
@@ -11,30 +11,26 @@ def home():
     return render_template('home.html')
 
 @app.route('/search', methods=['GET', 'POST'])
-def city_search():   
+def company_search():   
     if request.method == 'POST':
-        zipcode = request.form.get('zipcode')
+        symbol = request.form.get('symbol')
 
-        url = '{}/weather?zip={}&APPID={}'.format(
-            os.environ.get('API_URL'),
-            zipcode,
-            os.environ.get('API_KEY'),
-        )
+        url = f'https://api.iextrading.com/1.0/stock/{symbol}/company'
 
         res = requests.get(url)
         data = json.loads(res.text)
-        try:
-            city = City(name=data['name'], zipcode=zipcode)
-            db.session.add(city)
-            db.session.commit()
-        except (DBAPIError, IntegrityError):
-            abort(400)
-        return redirect(url_for('/portfolio')), 200, 'OK'
 
-    return render_template('./weather/search.html'), 200, 'OK' 
+        company = Company(name=data['companyName'], symbol=data['symbol'])
+
+        db.session.add(company)
+        db.session.commit()
+
+        return redirect(url_for('.portfolio_page'))
+
+    return render_template('weather/search.html')
 
 @app.route('/portfolio', methods=['GET'])
 def portfolio_page():
-    return render_tempalte('./weather/portfolio.html')       
+    return render_template('./weather/portfolio.html')       
 
 
