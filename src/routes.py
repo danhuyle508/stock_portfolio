@@ -1,7 +1,7 @@
 from flask import render_template, abort, redirect, url_for, request
 from sqlalchemy.exc import DBAPIError, IntegrityError
 from .models import db, Company
-from . import app
+from . import src
 import requests
 import json
 import os
