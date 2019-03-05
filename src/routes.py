@@ -1,14 +1,14 @@
 from flask import render_template, abort, redirect, url_for, request
 from sqlalchemy.exc import DBAPIError, IntegrityError
 from .models import db, Company
-from . import src
+from . import app
 import requests
 import json
 import os
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html'), 200
 
 @app.route('/search', methods=['GET', 'POST'])
 def company_search():   
@@ -26,12 +26,12 @@ def company_search():
         # db.session.add(company)
         # db.session.commit()
 
-        return redirect(url_for('.portfolio_page'))
+        return redirect(url_for('.portfolio_page'), code=302)
 
-    return render_template('weather/search.html')
+    return render_template('weather/search.html'), 200
 
 @app.route('/portfolio', methods=['GET'])
 def portfolio_page():
-    return render_template('./weather/portfolio.html')       
+    return render_template('./weather/portfolio.html'), 200       
 
 
