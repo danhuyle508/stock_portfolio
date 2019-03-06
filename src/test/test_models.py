@@ -8,10 +8,10 @@ class TestClass():
         session.add(company)
         session.commit()
 
-        assert city.id > 0
+        assert company.id > 0
 
         company = Company.query.all()
 
-        assert len(cities) == 1
+        assert len(company) == 1
         assert company[0].name == 'Google'
         assert company[0].symbol =='goog'

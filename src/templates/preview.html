@@ -1,0 +1,14 @@
+{% extends 'weather/base.html' %}
+{% block content %}
+    <p>Company: {{ symbol_data.companyName }}</p>
+    <p>Symbol: {{ symbol }}</p>
+
+    <form action="{{ url_for(".preview_page") }}" method="POST">
+            {{ form.hidden_tag() }}
+            <div class="hidden" hidden>
+              {{ form.symbol.label }}{{ form.symbol(size=20) }}
+              {{ form.name.label }}{{ form.name(size=20) }}
+            </div>
+            <input type="submit" value="Go">
+          </form>
+{% endblock content %}
