@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html>
-    <head>
-    </head>
-    <body>
-        <header>
-        </header>
-        <main>
-            <h1>search</h1>
+{% extends 'weather/base.html'%}
 
-            <form action="/search" method="POST">
-                <input id="symbol" name="symbol" type="text">
-                <input type="submit" value="Go">
-            </form>
-        </main>
-    </body>
-</html>
+{% block content %}
+    <h1>Search for a company</h1>
+    <form action="{{url_for('.company_search') }}" method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.symbol.label }}{{ form.symbol(size=20) }}
+        <input type="submit" value="Go">
+    </form>
+{% endblock content %}

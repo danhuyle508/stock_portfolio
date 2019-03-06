@@ -7,6 +7,7 @@ import os
 def app(request):
     _app.config.from_mapping(
         TESTING=True,
+        SECRET_KEY=os.environ.get('SECRET_KEY'),
         SQLALCHEMY_DATABASE_URI=os.getenv('TEST_DATABASE_URL'),
         SQLALCHEMY_TRACK_MODIFICATIONS=False
     )
@@ -25,6 +26,7 @@ def db(app, request):
         _db.drop_all()
 
     _db.app = app
+    #import pdb; pdb.set_trace()
     _db.create_all()
 
     request.addfinalizer(teardown)
