@@ -3,8 +3,15 @@
 {% block content %}
 <div class="container">
   <h2>Welcome to the portfolio</h2>
+  <h3>Create a new potfolio!</h3>
+  <form action="{{ url_for(".portfolio_page") }}" method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.name.label }}{{ form.name(size=20) }}
+    <input type="submit" name="create_portfolio" id="create_portfolio" value="Go">
+  </form>
   {% for company in companies %}
     <div class="company">
+      <p>Portfolio: {{ company.portfolio.name }}</p>
       <p>Name: {{ company.name }}</p>
       <p>symbol: {{ company.symbol }}</p>
     </div>

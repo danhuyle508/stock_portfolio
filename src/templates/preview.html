@@ -1,4 +1,5 @@
 {% extends 'weather/base.html' %}
+<h2>This is your preview</h2>
 {% block content %}
     <p>Company: {{ symbol_data.companyName }}</p>
     <p>Symbol: {{ symbol }}</p>
@@ -10,5 +11,7 @@
               {{ form.name.label }}{{ form.name(size=20) }}
             </div>
             <input type="submit" value="Go">
-          </form>
+            {{ form.portfolios.label }}{{ form.portfolios() }}
+    </form>
+          
 {% endblock content %}

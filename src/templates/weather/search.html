@@ -1,10 +1,16 @@
 {% extends 'weather/base.html'%}
 
 {% block content %}
-    <h1>Search for a company</h1>
-    <form action="{{url_for('.company_search') }}" method="POST">
-        {{ form.hidden_tag() }}
-        {{ form.symbol.label }}{{ form.symbol(size=20) }}
-        <input type="submit" value="Go">
-    </form>
+    {% if get_portfolios() %}
+    <div class="container">
+            <h2>Search for a Company</h2>
+            <form method="POST" action="{{ url_for(".company_search") }}">
+              {{ form.hidden_tag() }}
+              {{ form.symbol.label }}{{ form.symbol(size=20) }}
+              <input type="submit" value="Go">
+            </form>
+          </div>
+    {% else %}
+    <h3>Please create a Portfolio <a href="{{ url_for(".portfolio_page") }}">here</a></h3
+        {% endif %}
 {% endblock content %}

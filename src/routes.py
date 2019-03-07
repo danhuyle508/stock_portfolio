@@ -1,7 +1,7 @@
 from flask import render_template, abort, redirect, url_for, request, session, flash
 from sqlalchemy.exc import DBAPIError, IntegrityError
-from .models import db, Company
-from .forms import CompanyForm, CompanyAddForm
+from .models import db, Company, Portfolio
+from .forms import CompanyForm, CompanyAddForm, PortfolioCreateForm
 from . import app
 import requests
 import json
@@ -10,6 +10,11 @@ import os
 @app.route('/')
 def home():
     return render_template('home.html'), 200
+
+@app.add_template_global
+def get_portfolios():
+ 
+    return Portfolio.query.all()    
 
 @app.route('/search', methods=['GET', 'POST'])
 def company_search():   
@@ -32,10 +37,25 @@ def company_search():
 
     return render_template('weather/search.html', form = form), 200
 
-@app.route('/portfolio', methods=['GET'])
+@app.route('/portfolio', methods=['GET','POST'])
 def portfolio_page():
-    companies = Company.query.all()
-    return render_template('portfolio.html', companies=companies), 200       
+    
+    form = PortfolioCreateForm()
+
+    if form.validate_on_submit():
+        try: 
+            portfolio = Portfolio(name=form.data['name'])
+            db.session.add(portfolio)
+            db.session.commit()
+        except (DBAPIError, IntegrityError):
+            flash('Something went wrong with your Portfolio.')
+            print('no bueno')
+            return render_template('portfolio.html', form=form)
+
+        return redirect(url_for('.company_search'))
+
+    companies = Company.query.filter_by()
+    return render_template('portfolio.html', companies=companies, form=form)            
 
 @app.route('/preview', methods=['GET', 'POST'])
 def preview_page():
@@ -48,15 +68,17 @@ def preview_page():
     form = CompanyAddForm(**form_context)
     if form.validate_on_submit():
         try:
-            new_company = Company(name=form.data['name'], symbol=form.data['symbol'])
-            print(new_company)
+            
+            new_company = Company(name=form.data['name'], symbol=form.data['symbol'], portfolio_id=form.data['portfolios'],)
             db.session.add(new_company)
             db.session.commit()
+            print('done')
         except (DBAPIError, IntegrityError):
             flash('Something went wrong with your search.')
+            db.session.rollback()
             return redirect(url_for('.company_search'))
 
-        return redirect(url_for('.portfolio_page'))
+        return redirect(url_for('.portfolio_page')), 302
 
     return render_template(
         'preview.html',
