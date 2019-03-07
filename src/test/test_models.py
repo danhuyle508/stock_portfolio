@@ -1,4 +1,4 @@
-from src.models import Company 
+from src.models import Company, Portfolio 
 
 class TestClass():
 
@@ -15,3 +15,16 @@ class TestClass():
         assert len(company) == 1
         assert company[0].name == 'Google'
         assert company[0].symbol =='goog'
+
+    def test_create_portfolios(self, session):
+        portfolio = Porfolio(name='cat')
+
+        session.add(portfolio)
+        session.commit()
+
+        assert portfolio.id > 0
+
+        portfolio = Portfolio.query.all()
+
+        assert len(portfolio) == 1
+        assert portfolio[0].name == 'cat'    

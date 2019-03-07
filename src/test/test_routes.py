@@ -21,3 +21,7 @@ class TestClass():
     def test_search_route_post(self, session):
         rv = app.test_client().post('/search', data={'symbol': 'goog'})
         assert rv.status_code == 302    
+
+    def test_preview_route_ get(self, session):
+        rv = app.test_client().post('/preview_page', data={'symbol' : 'goog'})
+        assert rv.status_code == 302

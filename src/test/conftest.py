@@ -26,7 +26,6 @@ def db(app, request):
         _db.drop_all()
 
     _db.app = app
-    #import pdb; pdb.set_trace()
     _db.create_all()
 
     request.addfinalizer(teardown)
