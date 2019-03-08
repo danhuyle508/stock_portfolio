@@ -1,4 +1,4 @@
-{% extends 'weather/base.html'%}
+{% extends "weather/base.html" %}
 
 {% block content %}
     {% if get_portfolios() %}
@@ -11,6 +11,6 @@
             </form>
           </div>
     {% else %}
-    <h3>Please create a Portfolio <a href="{{ url_for(".portfolio_page") }}">here</a></h3
-        {% endif %}
+    <h3>Please create a Portfolio <a href="{{ url_for(".portfolio_page") }}">here</a></h3>
+    {% endif %}
 {% endblock content %}

@@ -11,4 +11,4 @@ app.config.from_mapping(
     SQLALCHEMY_TRACK_MODIFICATIONS=False,
 )
 
-from . import routes, models
+from . import routes, models, auth
