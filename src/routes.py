@@ -3,6 +3,7 @@ from sqlalchemy.exc import DBAPIError, IntegrityError
 from .models import db, Company, Portfolio
 from .forms import CompanyForm, CompanyAddForm, PortfolioCreateForm
 from . import app
+from .auth import login_required
 import requests
 import json
 import os
@@ -17,6 +18,7 @@ def get_portfolios():
     return Portfolio.query.all()    
 
 @app.route('/search', methods=['GET', 'POST'])
+@login_required
 def company_search():   
 
     form = CompanyForm()
@@ -38,6 +40,7 @@ def company_search():
     return render_template('weather/search.html', form = form), 200
 
 @app.route('/portfolio', methods=['GET','POST'])
+@login_required
 def portfolio_page():
     
     form = PortfolioCreateForm()
@@ -58,6 +61,7 @@ def portfolio_page():
     return render_template('portfolio.html', companies=companies, form=form)            
 
 @app.route('/preview', methods=['GET', 'POST'])
+@login_required
 def preview_page():
 
     form_context = {

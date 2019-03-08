@@ -17,7 +17,7 @@ class TestClass():
         assert company[0].symbol =='goog'
 
     def test_create_portfolios(self, session):
-        portfolio = Porfolio(name='cat')
+        user = User(name='cat')
 
         session.add(portfolio)
         session.commit()
@@ -27,4 +27,18 @@ class TestClass():
         portfolio = Portfolio.query.all()
 
         assert len(portfolio) == 1
-        assert portfolio[0].name == 'cat'    
+        assert portfolio[0].name == 'cat'
+
+    def test_create_portfolios(self, session):
+        user = User(email='dog@gmail.com', password='123')
+
+        session.add(user)
+        session.commit()
+
+        assert user.id > 0
+
+        user = User.query.all()
+
+        assert len(user) == 1
+        assert user[0].email == 'dog@gmail.com'
+        assert user[0].password == '123'            
