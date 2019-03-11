@@ -8,7 +8,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 class Company(db.Model):
-    __tablename__ = 'company'
+    __tablename__ = 'companies'
 
     id = db.Column(db.Integer, primary_key=True)
     portfolio_id = db.Column(db.ForeignKey('portfolios.id'), nullable=False)
@@ -57,4 +57,3 @@ class User(db.Model):
 
         return False    
     
-     
