@@ -20,7 +20,6 @@ def get_portfolios():
 @app.route('/search', methods=['GET', 'POST'])
 @login_required
 def company_search():   
-
     form = CompanyForm()
 
     if form.validate_on_submit():
@@ -47,7 +46,7 @@ def portfolio_page():
 
     if form.validate_on_submit():
         try: 
-            portfolio = Portfolio(name=form.data['name'])
+            portfolio = Portfolio(name=form.data['name'], user_id=session['user_id'])
             db.session.add(portfolio)
             db.session.commit()
         except (DBAPIError, IntegrityError):

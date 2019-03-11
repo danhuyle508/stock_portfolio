@@ -16,14 +16,13 @@ def login_required(view):
 
 @app.before_request
 def load_logged_in_user():
-
-    user_id = session.get('user_id') 
+    user_id = session.get('user_id')
 
     if user_id is None:
         g.user= None
 
     else:
-        g.user = User.query.get('user_id')
+        g.user = User.query.get(user_id)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -51,7 +50,6 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
     form = AuthForm()
 
     if form.validate_on_submit():
@@ -63,7 +61,7 @@ def login():
 
         if user is None or not User.check_password_hash(user, password):
             error = 'Invalid username or password.'
-
+        
         if error is None:
             session.clear()
             session['user_id'] = user.id
